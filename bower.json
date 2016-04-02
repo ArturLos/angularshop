@@ -1,0 +1,15 @@
+{
+  "name": "angularshop",
+  "description": "angularshop",
+  "authors": [
+    "Arti"
+  ],
+  "appPath": "src/main/webapp",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-route": "^1.5.3",
+    "angular-sanitize": "^1.5.3",
+    "angular-bootstrap": "^1.2.5"
+  }
+}

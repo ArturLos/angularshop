@@ -1,0 +1,20 @@
+
+#footer{
+  background-color: #f2f2f2;
+  padding: 25px;
+}
+
+.fixed-panel{
+  margin-right: 10px;
+}
+.fixed-panel-body{
+  height: 300px;
+}
+
+.kafelek_produktu_img{
+  max-height: 240px;
+}
+
+.mt0 {
+  margin-top: 0px;
+}

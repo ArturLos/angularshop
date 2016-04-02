@@ -1,0 +1,11 @@
+{
+  "name": "angularshop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "angularshop",
+  "author": "Arti",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-wiredep": "^2.0.0"
+  }
+}
