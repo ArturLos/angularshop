@@ -2,7 +2,8 @@ package pl.angularshop.maintance
 
 import org.springframework.beans.factory.annotation._
 import org.springframework.web.bind.annotation._
-import pl.angularshop.kategoria.{Kategoria, KategoriaRepository}
+import pl.angularshop.katalog.KatalogService
+import pl.angularshop.kategoria.{Kategoria, KategoriaRepository, KategoriaService}
 import pl.angularshop.produkt.{Produkt, ProduktRepository}
 
 
@@ -13,21 +14,23 @@ class InicjalizacjaDanych {
   var produktRepository: ProduktRepository = _
   @Autowired
   var kategoriaRepository: KategoriaRepository = _
+  @Autowired
+  var katalogService: KatalogService = _
   
   
   @RequestMapping(Array("/inicjalizujProdukt"))
   def inicjalizujProdukt: Unit = {
     var produkt: Produkt = new Produkt("WIB_MICH_W", "Mark 4","Delikatność w każdym milimetrze","Miekki z naturalnych materiałów")
     produkt.getObrazek().add("img/dildos1.jpg")
-    produktRepository.save(produkt)
+    katalogService.saveProdukt(produkt)
     
     produkt = new Produkt("WIB_MARK_4", "Michał Wielki","Zawsze tam gdzie trzeba","Doskonale <b>dopasowuje się</b> do kształtu Twojego ciała.")
     produkt.getObrazek().add("img/dildos1.jpg")
-    produktRepository.save(produkt)
+    katalogService.saveProdukt(produkt)
     
     produkt = new Produkt("HAR_ZAS", "Harnes Zasada","Gotowy specjalnie dla Ciebie","")
     produkt.getObrazek().add("img/dildos1.jpg")
-    produktRepository.save(produkt)
+    katalogService.saveProdukt(produkt)
     
   }
   

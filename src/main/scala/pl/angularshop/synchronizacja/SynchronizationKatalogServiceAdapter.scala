@@ -10,7 +10,7 @@ import pl.angularshop.kategoria.{Kategoria, KategoriaService}
 import pl.angularshop.produkt.Produkt
 
 @Repository
-class Fla {
+class SynchronizationKatalogServiceAdapter {
   val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
   @Autowired
@@ -19,10 +19,10 @@ class Fla {
   var produktService: KatalogService = _
 
   @Transactional
-  def saveSourceData(produkt: Produkt): Unit = {
+  def saveProdukt(produkt: Produkt): Unit = {
     if (produkt == null) return
     LOG.info(s"Zapisywanie produktu: ${Produkt.TO_STRING(produkt)}")
-    LOG.info(s"Kategoria: ${if(produkt.getKategoria().size()>0) produkt.getKategoria().get(0).getKod else "-brak-kategori-"}")
+    LOG.info(s"Kategoria: ${if(produkt.getKategoria().size()>0) produkt.getKategoria().iterator().next().getKod else "-brak-kategori-"}")
     produktService.saveProdukt(produkt)
   }
 

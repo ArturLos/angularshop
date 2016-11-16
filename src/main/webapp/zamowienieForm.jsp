@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<div ng-controller="ZamowienieController as zamowienieController" ng-init="zamowienieController.getZamownienie()">
+<div ng-controller="ZamowienieController as zamowienieController" ng-init="zamowienieController.init()">
   <h2 class="mt0">Zamówienie/Podsumowanie zamówienia</h2>
   <hr/>
   <form name="zamowienieController.zamowienieFormularz" role="form" class="form-horizontal">

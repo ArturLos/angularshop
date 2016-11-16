@@ -1,13 +1,11 @@
 package pl.angularshop.katalog;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.angularshop.produkt.Produkt;
 
 @RestController
@@ -21,19 +19,28 @@ public class KatalogController {
   public KatalogController() {
   }
   
-  @RequestMapping(value = "produkty", method = RequestMethod.GET)
-  public List<Produkt> getProduktList() {
-    return katalogService.getWszystkieProdukty();
+  @RequestMapping(value = {"produkty"}, method = RequestMethod.GET)
+  public List<Produkt.ProduktDto> getProduktList(@RequestParam(required = false) Integer page) {
+    return katalogService.getWszystkieProduktyByPage(page!=null?page-1:0).stream()
+      .map(produkt -> produkt.toDto())
+      .collect(Collectors.toList());
   }
 
   @RequestMapping(value = "produkty/kategoria/{kategoriaKod}", method = RequestMethod.GET)
-  public List<Produkt> getProduktyZKategorii(@PathVariable String kategoriaKod) {
-    return katalogService.getProduktyZKategorii(kategoriaKod);
+  public List<Produkt.ProduktDto> getProduktyZKategorii(@PathVariable String kategoriaKod, @RequestParam(required = false) Integer page) {
+    return katalogService.getProduktyZKategoriiByPage(kategoriaKod, page!=null?page-1:0).stream()
+      .map(produkt -> produkt.toDto())
+      .collect(Collectors.toList());
   }
 
-  @RequestMapping(value = "produkty/{produktId}", method = RequestMethod.GET)
-  public Produkt getProdukt(@PathVariable Integer produktId) {
-    return katalogService.getProduktById(produktId);
+  @RequestMapping(value = "produkty/{produktKod}", method = RequestMethod.GET)
+  public Produkt.ProduktDto getProdukt(@PathVariable String produktKod) {
+    Produkt.ProduktDto result = null;
+    Produkt produkt = katalogService.getProduktByKod(produktKod);
+    if(produkt!=null) {
+      result = produkt.toDto();
+    }
+    return result;
   }
 
   @RequestMapping(value = "produkty", method = RequestMethod.POST)

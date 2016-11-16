@@ -10,7 +10,7 @@ import scala.xml.MetaData
 import scala.xml.pull._
 
 @Component
-class Bla {
+class PlayroomXMLEventParser {
   val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
   def parseNextProdukt(xMLEventReader: XMLEventReader): Produkt = {
@@ -62,7 +62,7 @@ class Bla {
       val endIndex = opis.indexOf("<xml>")
       if(endIndex>0)
         opis.substring(0, endIndex)
-      else ""
+      else opis
     } else
       ""
   }

@@ -12,6 +12,7 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
   <!-- endbower -->
   <script src="${pageContext.request.contextPath}/js/angularshop.js"></script>
   <script src="${pageContext.request.contextPath}/js/katalog/Katalog.js"></script>

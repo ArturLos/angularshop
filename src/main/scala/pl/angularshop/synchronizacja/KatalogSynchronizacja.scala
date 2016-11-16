@@ -14,13 +14,12 @@ import scala.xml.pull._
 class KatalogSynchronizacja {
   @
   Autowired
-  var job: HuaJob = _
+  var job: SynchronizationJob = _
 
   @RequestMapping(method = Array(RequestMethod.GET))
   def synchronizuj(): Unit = {
-    val file: File = new File("playroom_xml_1_0.xml")
-    val source: Source = Source.fromFile(file)
-    job.synchronize(source)
+    job.source = Source.fromFile( new File("playroom_xml_1_0.xml"), "UTF-8")
+    job.synchronize()
   }
 
 }

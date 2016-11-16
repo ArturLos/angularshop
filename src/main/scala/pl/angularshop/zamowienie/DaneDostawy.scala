@@ -15,7 +15,7 @@ case class DaneDostawy() {
 
   var adres: String = _
 
-  @OneToOne(mappedBy = "daneDostawy")
+  @OneToOne(mappedBy = "daneDostawy", cascade = Array(CascadeType.ALL))
   var zamowienie: Zamowienie = _
 }
 

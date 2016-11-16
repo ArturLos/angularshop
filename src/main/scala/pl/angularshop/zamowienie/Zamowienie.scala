@@ -2,10 +2,20 @@ package pl.angularshop.zamowienie
 
 import javax.persistence._
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import pl.angularshop.produkt.Produkt
+import pl.angularshop.zamowienie.Zamowienie.ZamowienieDto
 
 import scala.collection.JavaConversions._
 import scala.collection._
+
+object Zamowienie{
+  @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+  class ZamowienieDto(
+   val produkty: mutable.Set[Produkt#ProduktDto],
+   val daneDostawy: DaneDostawy
+  )
+}
 
 @Entity
 case class Zamowienie() {
@@ -14,10 +24,15 @@ case class Zamowienie() {
   @GeneratedValue
   var id: Integer = _
 
-  @ManyToMany
-  var produkty: java.util.List[Produkt] = mutable.Buffer[Produkt]()
+  @ManyToMany(cascade = Array(CascadeType.ALL))
+  var produkty: java.util.Set[Produkt] = mutable.Set[Produkt]()
 
-  @OneToOne
+  @OneToOne(cascade = Array(CascadeType.ALL))
   var daneDostawy: DaneDostawy = _
-  
+
+  def toDto(): ZamowienieDto = {
+    new ZamowienieDto(
+      produkty.map(_.toDto),
+      daneDostawy)
+  }
 }

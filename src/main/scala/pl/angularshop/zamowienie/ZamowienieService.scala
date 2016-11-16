@@ -2,6 +2,9 @@ package pl.angularshop.zamowienie
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import pl.angularshop.produkt.ProduktRepository
+
+import scala.collection.JavaConversions._
 
 @Service
 class ZamowienieService {
@@ -12,9 +15,14 @@ class ZamowienieService {
   @Autowired
   var daneDostawyRepository: DaneDostawyRepository = _
 
-  def zapiszZamowienie(zamowienie: Zamowienie): Unit = {
-    daneDostawyRepository.save(zamowienie.daneDostawy)
-    zamowienieRepository.save(zamowienie)
+  @Autowired
+  var produktRepository: ProduktRepository  = _
+
+  def zapiszZamowienie(zamowienie: Zamowienie): Zamowienie = {
+    zamowienie.produkty = zamowienie.produkty.map(p=>
+      produktRepository.findByKod(p.getKod)
+    )
+    return zamowienieRepository.save(zamowienie)
   }
 
 }

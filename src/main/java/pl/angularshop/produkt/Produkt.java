@@ -1,13 +1,12 @@
 package pl.angularshop.produkt;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import pl.angularshop.kategoria.Kategoria;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 public class Produkt {
@@ -15,21 +14,20 @@ public class Produkt {
   @Id
   @GeneratedValue
   private Integer id;
-  
+  @Column(unique = true)
   private String kod;
 
   private String nazwa;
   
   private String krotkiOpis;
-  @Column(length = 5024)
+  @Column(length = 10024)
   private String opis;
-  
-  @ElementCollection
-  private Set<String> obrazek;
 
-  @Transient
-  @ManyToMany(mappedBy = "produkt",fetch= FetchType.LAZY)
-  private List<Kategoria> kategoria;
+  @ElementCollection
+  private Set<String> obrazek = new HashSet<String>();
+
+  @ManyToMany(mappedBy = "produkt", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
+  private Set<Kategoria> kategoria = new HashSet<>();
 
   public Produkt() {
   }
@@ -86,8 +84,6 @@ public class Produkt {
   }
 
   public Set<String> getObrazek() {
-    if(obrazek == null)
-      this.obrazek = new HashSet<String>();
     return this.obrazek;
   }
 
@@ -95,13 +91,11 @@ public class Produkt {
     this.obrazek = obrazek;
   }
 
-  public List<Kategoria> getKategoria() {
-    if (kategoria == null)
-      kategoria = new ArrayList<Kategoria>();
+  public Set<Kategoria> getKategoria() {
     return kategoria;
   }
 
-  public void setKategoria(List<Kategoria> kategoria) {
+  public void setKategoria(Set<Kategoria> kategoria) {
     this.kategoria = kategoria;
   }
 
@@ -113,14 +107,12 @@ public class Produkt {
     Produkt produkt = (Produkt) o;
 
     if (getKod() != null ? !getKod().equals(produkt.getKod()) : produkt.getKod() != null) return false;
-    if (getNazwa() != null ? !getNazwa().equals(produkt.getNazwa()) : produkt.getNazwa() != null) return false;
     return true;
   }
 
   @Override
   public int hashCode() {
     int result = getKod() != null ? getKod().hashCode() : 0;
-    result = 31 * result + (getNazwa() != null ? getNazwa().hashCode() : 0);
     return result;
   }
 
@@ -132,10 +124,26 @@ public class Produkt {
       ", nazwa='" + produkt.nazwa + '\'' +
       ", krotkiOpis='" + produkt.krotkiOpis + '\'' +
       ", opis='" + (produkt.opis!=null ? produkt.opis.substring(0,produkt.opis.length()>20?20:produkt.opis.length()):"") + "'.." +
-      ", obrazek=[" + produkt.getObrazek().stream().collect(Collectors.joining(", ")) +"}"+
-//      ", kategoria=[" + produkt.getKategoria().stream().map(Kategoria::getKod).collect(Collectors.joining(", ")) +"}"+
       '}';
   }
 
-  //serializable zrobić hashCode na odpowiednich polach i equals
+  @JsonInclude(value = JsonInclude.Include.NON_NULL)
+  public class ProduktDto {
+    public String kod;
+    public String nazwa;
+    public String krotkiOpis;
+    public String opis;
+    public Set<String> obrazek;
+  }
+
+  public ProduktDto toDto(){
+    ProduktDto result = new ProduktDto();
+    result.kod = getKod();
+    result.nazwa = getNazwa();
+    result.krotkiOpis = getKrotkiOpis();
+    result.opis = getOpis();
+    result.obrazek = getObrazek();
+    return result;
+  }
+
 }

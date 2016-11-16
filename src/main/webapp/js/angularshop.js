@@ -1,16 +1,14 @@
 /* global angular */
 
-var angularshop = angular.module('AngularSHOP', ['ngRoute', 'ngSanitize']);
+var angularshop = angular.module('AngularSHOP', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ui.bootstrap']);
 
 angularshop.config(function($routeProvider, $locationProvider) {
   $routeProvider
-          .when("/", {
-            templateUrl: "produktList.jsp"
-          })
-          .when("/kategoria/:kategoriaKod?",{
+          .when("/", {redirectTo: "/kategoria//1"})
+          .when("/kategoria/:kategoriaKod?/:page?",{
               templateUrl: "produktList.jsp",
           })
-          .when("/produkt/:produktId",{
+          .when("/produkt/:produktKod",{
             templateUrl: "produktSzczegoly.jsp"
           })
           .when("/zamowienie",{

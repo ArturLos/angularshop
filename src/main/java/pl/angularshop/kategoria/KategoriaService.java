@@ -10,7 +10,7 @@ public class KategoriaService {
   
   @Autowired
   private KategoriaRepository kategoriaRepository;
-  
+
   public List<Kategoria> getWszystkieKategorie(){
     List<Kategoria> result = new ArrayList<Kategoria>();
     this.kategoriaRepository.findAll().forEach(kategoria -> result.add(kategoria));

@@ -1,24 +1,33 @@
 package pl.angularshop.kategoria;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import pl.angularshop.produkt.Produkt;
-
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
+
 public class Kategoria {
   @Id
   @GeneratedValue
   private Integer id;
+  @Column(unique = true)
   private String kod;
   private String nazwa;
   @ManyToOne
   private Kategoria rootKategoria;
   @ManyToMany(fetch= FetchType.LAZY)
-  private List<Kategoria> podKategorie;
+  private List<Kategoria> podKategorie =  new ArrayList<Kategoria>();
   @ManyToMany(fetch= FetchType.LAZY)
-  private List<Produkt> produkt;
+  @JoinTable(
+    name = "kategoria_produkt",
+    joinColumns = {@JoinColumn(name = "kategoria_id")},
+    inverseJoinColumns = {@JoinColumn(name = "produkt_id")}
+  )
+  private Set<Produkt> produkt = new HashSet<Produkt>();
 
   public Kategoria() {
   }
@@ -61,20 +70,18 @@ public class Kategoria {
   }
 
   public List<Kategoria> getPodKategorie() {
-    return podKategorie !=null ? podKategorie : new ArrayList<Kategoria>();
+    return podKategorie;
   }
 
   public void setPodKategorie(List<Kategoria> podKategorie) {
     this.podKategorie = podKategorie;
   }
 
-  public List<Produkt> getProdukt() {
-    if (produkt == null)
-      produkt = new ArrayList<Produkt>();
+  public Set<Produkt> getProdukt() {
     return produkt;
   }
 
-  public void setProdukt(List<Produkt> produkty) {
+  public void setProdukt(Set<Produkt> produkty) {
     this.produkt = produkty;
   }
 
@@ -86,14 +93,28 @@ public class Kategoria {
     Kategoria kategoria = (Kategoria) o;
 
     if (!getKod().equals(kategoria.getKod())) return false;
-    if (!getNazwa().equals(kategoria.getNazwa())) return false;
     return true;
   }
 
   @Override
   public int hashCode() {
     int result = getKod().hashCode();
-    result = 31 * result + getNazwa().hashCode();
     return result;
   }
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public class KategoriaDto {
+    public String kod;
+    public String nazwa;
+    public List<Kategoria> podKategorie;
+  }
+
+  public KategoriaDto toDto() {
+    KategoriaDto result = new KategoriaDto();
+    result.kod = getKod();
+    result.nazwa = getNazwa();
+//    result.podKategorie = getPodKategorie();
+    return result;
+  }
+
 }

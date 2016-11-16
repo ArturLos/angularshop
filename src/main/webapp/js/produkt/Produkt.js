@@ -2,9 +2,9 @@ var angularshop = angular.module('AngularSHOP');
 
 angularshop.controller("ProduktController",function($routeParams, $location, ProduktService, ZamowienieService){
   var produktController = this;
-  produktController.produktId = $routeParams.produktId;
+  produktController.produktKod = $routeParams.produktKod;
   produktController.produkt = {};
-  ProduktService.getProduktById(produktController.produktId).success(function(result){
+  ProduktService.getProduktByKod(produktController.produktKod).success(function(result){
     produktController.produkt = result;
   });
   
@@ -18,7 +18,7 @@ angularshop.controller("ProduktController",function($routeParams, $location, Pro
 
 angularshop.service("ProduktService",function($http){
   var produktService = this;
-  produktService.getProduktById = function(id){
-    return $http.get('/angularshop/katalog/produkty/'+id);
+  produktService.getProduktByKod = function(kod){
+    return $http.get('/angularshop/katalog/produkty/'+kod);
   };
 });

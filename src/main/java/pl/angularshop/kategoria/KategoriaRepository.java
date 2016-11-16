@@ -1,8 +1,8 @@
 package pl.angularshop.kategoria;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface KategoriaRepository extends CrudRepository<Kategoria, Integer>{
+public interface KategoriaRepository extends JpaRepository<Kategoria, Integer> {
 
     Kategoria findByKod(String kod);
 

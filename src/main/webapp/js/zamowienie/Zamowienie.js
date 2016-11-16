@@ -2,13 +2,12 @@ var angularshop = angular.module('AngularSHOP');
 
 angularshop.controller("ZamowienieController",function(ZamowienieService, $location){
   var zamowienieController = this;
+  zamowienieController.zamowienie = {};
 
-  var zabowienieObj = {
-
+  zamowienieController.init = function init() {
+    zamowienieController.getZamownienie();
   }
 
-  zamowienieController.zamowienie = {};
-  
   zamowienieController.wyslij = function wyslij(){
     console.log("Zamowienie: " + JSON.stringify(zamowienieController.zamowienie));
     ZamowienieService.wyslij(zamowienieController.zamowienie).success(function(result){
@@ -37,6 +36,6 @@ angularshop.service("ZamowienieService",function($http){
   };
 
   zamowienieService.wyslij = function(zamowienie){
-    return $http.post('/angularshop/zamowienie/wyslij', JSON.stringify(zamowienie));
+    return $http.post('/angularshop/zamowienie/wyslij', JSON.stringify(zamowienie.daneDostawy));
   };
 });
