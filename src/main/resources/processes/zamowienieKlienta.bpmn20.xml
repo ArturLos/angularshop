@@ -22,7 +22,7 @@
     <endEvent id="sid-4C8EC86D-8D28-46D8-B351-9418D94DE50F">
       <terminateEventDefinition/>
     </endEvent>
-    <serviceTask id="sid-034874D6-1029-42D5-9F57-406688A74EAB" name="Wygeneruj fakturę" activiti:expression="#{null}"/>
+    <serviceTask id="sid-034874D6-1029-42D5-9F57-406688A74EAB" name="Wygeneruj fakturę" activiti:expression="#{fakturaService.utworzFaktureId(zamowienieId)}" activiti:resultVariableName="fakturaId"/>
     <sequenceFlow id="sid-3D486EC2-9184-44AE-A060-EB156137AE80" sourceRef="sid-41D53977-23CF-4D4D-9CB3-0A3A831EBEF5" targetRef="sid-4C8EC86D-8D28-46D8-B351-9418D94DE50F"/>
     <sequenceFlow id="sid-1C3FBE8E-CC11-478D-BC37-628D0235FDCF" sourceRef="sid-3D3903FD-39AA-41E7-8A33-CE92CC5BE165" targetRef="sid-034874D6-1029-42D5-9F57-406688A74EAB"/>
     <sequenceFlow id="sid-51F5EE26-7D90-417B-96D9-D0F63863EACF" sourceRef="sid-034874D6-1029-42D5-9F57-406688A74EAB" targetRef="sid-41D53977-23CF-4D4D-9CB3-0A3A831EBEF5"/>

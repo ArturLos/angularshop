@@ -56,8 +56,8 @@ class ZamowienieController {
     this.zamowienie = zamowienieService.zapiszZamowienie(this.zamowienie)
 
     identityService.setAuthenticatedUserId("kermit")
-    var initialData = collection.mutable.Map[String, String]()
-    initialData.put("zamowienieId", this.zamowienie.id.toString())
+    var initialData = collection.mutable.Map[String, Integer]()
+    initialData.put("zamowienieId", this.zamowienie.id)
     processInstance = runtimeService.startProcessInstanceByKey("zamowienieKlienta", initialData)
     identityService.setAuthenticatedUserId(null)
 
